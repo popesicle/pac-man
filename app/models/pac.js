@@ -17,17 +17,14 @@ export default Ember.Object.extend(SharedStuff, Movement, {
     let intent = this.get("intent");
     if(this.pathBlockedInDirection(intent)){
       this.set('direction', 'stopped');
-      console.log(this.get('direction'))
     } else {
-      this.set('direction', intent)
-      console.log(this.get('direction'))
-      console.log(intent);
+      this.set('direction', intent);
     }
   },
 
   restart(){
     this.set('x', 0);
-    this.set('y', 0);
+    this.set('y', 1);
     this.set('frameCycle', 0);
     this.set('direction', 'stopped');
   },

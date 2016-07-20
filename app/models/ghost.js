@@ -8,7 +8,6 @@ export default Ember.Object.extend(SharedStuff, Movement, {
     let y = this.get('y');
     let radiusDivisor = 2;
     this.drawCircle(x, y, radiusDivisor, this.get('direction'), '#F55');
-    console.log(this.get('direction'))
   },
 
   changeDirection(){
@@ -47,4 +46,17 @@ export default Ember.Object.extend(SharedStuff, Movement, {
       }
     }
   },
+
+  init() {
+    this.set('startingX', this.get('x'));
+    this.set('startingy', this.get('y'));
+    return this._super(...arguments);
+  },
+
+  restart(){
+    this.set('x', this.get('startingX'));
+    this.set('y', this.get('startingy'));
+    this.set('frameCycle', 0);
+    this.set('direction', 'stopped');
+  }
 });
