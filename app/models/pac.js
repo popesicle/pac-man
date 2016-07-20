@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import SharedStuff from '../mixins/shared-stuff';
+import Level from '../models/level';
 
 export default Ember.Object.extend(SharedStuff, {
   direction: 'down',
@@ -58,11 +59,17 @@ export default Ember.Object.extend(SharedStuff, {
   cellTypeInDirection(direction) {
     let nextX = this.nextCoordinate('x', direction);
     let nextY = this.nextCoordinate('y', direction);
-
-    return this.get(`grid.${nextY}.${nextX}`);
+    return this.get(`level.grid.${nextY}.${nextX}`);
   },
 
   nextCoordinate(coordinate, direction){
     return this.get(coordinate) + this.get(`directions.${direction}.${coordinate}`);
+  },
+
+  restart(){
+    this.set('x', 0);
+    this.set('y', 0);
+    this.set('frameCycle', 0);
+    this.set('direction', 'stopped');
   },
 })
