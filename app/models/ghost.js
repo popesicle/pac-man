@@ -3,6 +3,13 @@ import SharedStuff from '../mixins/shared-stuff';
 import Movement from '../mixins/movement';
 
 export default Ember.Object.extend(SharedStuff, Movement, {
+  removed: false,
+  retreat(){
+    this.set('removed', true)
+    this.set('x', -1);
+    this.set('y', -1);
+  },
+
   draw(){
     let x = this.get('x');
     let y = this.get('y');
