@@ -12,20 +12,23 @@ export default Ember.Object.extend(SharedStuff, Movement, {
 
   changeDirection(){
     let directions = ['left', 'right', 'up', 'down'];
-    let directionWeights = directions.map((direction)=> {
+    let directionWeights = directions.map((direction)=>{
       return this.chanceOfPacmanIfInDirection(direction);
-    })
-
+    });
     let bestDirection = this.getRandomItem(directions, directionWeights);
     this.set('direction', bestDirection);
   },
 
   chanceOfPacmanIfInDirection(direction) {
+    console.log('this is ghost direction', direction)
     if(this.pathBlockedInDirection(direction)) {
+      console.log('blocked');
       return 0;
-    } else {
+    }
+    else {
+      console.log('siguered')
       let chances = ((this.get('pac.y') - this.get('y')) * this.get(`directions.${direction}.y`)) + ((this.get('pac.x') - this.get('x')) * this.get(`directions.${direction}.x`))
-      return Math.max(chances, 0) + 0.2
+      return Math.max(chances, 0) + 0.2;
     }
   },
 

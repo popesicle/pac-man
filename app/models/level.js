@@ -8,7 +8,7 @@ export default Ember.Object.extend({
   // 0 is a blank space
   // 1 is a wall
   // 2 is a pellet
-  grid: [
+  layout: [
     [2, 2, 2, 2, 2, 2, 2, 1],
     [2, 1, 2, 1, 2, 2, 2, 1],
     [2, 2, 1, 2, 2, 2, 2, 1],
@@ -49,13 +49,7 @@ export default Ember.Object.extend({
 
   // Cycles through the grid, and places a 2 at every instance of a 0
   restart(){
-    let grid = this.get('grid');
-    grid.forEach((row, rowIndex)=> {
-      row.forEach((cell, columnIndex)=> {
-        if(cell == 0){
-          grid[rowIndex][columnIndex] = 2;
-        }
-      });
-    });
+    let newGrid = jQuery.extend(true, [], this.get('layout'));
+    this.set('grid', newGrid);
   },
 });

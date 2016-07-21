@@ -90,11 +90,14 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, Movement, 
 
     grid.forEach((row, rowIndex)=> {
       row.forEach((cell, columnIndex)=> {
-        if(cell === 1){
+        if(cell == 1){
           this.drawWall(columnIndex, rowIndex);
         }
-        if(cell === 2){
+        if(cell == 2){
           this.drawPellet(columnIndex, rowIndex);
+        }
+        if(cell == 3){
+          this.drawPowerPellet(columnIndex, rowIndex)
         }
       });
     });
@@ -103,6 +106,11 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, Movement, 
   drawPellet(x, y){
     let radiusDivisor = 6;
     this.drawCircle(x, y, radiusDivisor, 'stopped');
+  },
+
+  drawPowerPellet(x, y){
+    let radiusDivisor = 4;
+    this.drawCircle(x, y, radiusDivisor, 'stopped', 'green')
   },
 
   clearScreen() {
@@ -145,10 +153,17 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, Movement, 
     if(grid[y][x] == 2){
       grid[y][x] = 0;
       this.incrementProperty('score');
+
       if(this.get('level').isComplete()){
         this.incrementProperty('levelNumber');
         this.startNewLevel();
       }
+    }
+    else if(grid[y][x] == 3){
+      console.log('wahoooo');
+      grid[y][x] = 0;
+      this.set('pac.powerMode', true);
+      console.log(this.get('pac.powerMode'))
     }
   },
 
