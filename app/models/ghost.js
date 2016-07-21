@@ -20,15 +20,16 @@ export default Ember.Object.extend(SharedStuff, Movement, {
   },
 
   chanceOfPacmanIfInDirection(direction) {
-    console.log('this is ghost direction', direction)
     if(this.pathBlockedInDirection(direction)) {
-      console.log('blocked');
       return 0;
     }
     else {
-      console.log('siguered')
-      let chances = ((this.get('pac.y') - this.get('y')) * this.get(`directions.${direction}.y`)) + ((this.get('pac.x') - this.get('x')) * this.get(`directions.${direction}.x`))
-      return Math.max(chances, 0) + 0.2;
+      let desirabilityOfDirection = ((this.get('pac.y') - this.get('y')) * this.get(`directions.${direction}.y`)) + ((this.get('pac.x') - this.get('x')) * this.get(`directions.${direction}.x`));
+      if(this.get('pac.powerMode')){
+        desirabilityOfDirection *= -1;
+      }
+
+      return Math.max(desirabilityOfDirection, 0) + 0.2
     }
   },
 

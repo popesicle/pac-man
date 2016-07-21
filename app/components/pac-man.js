@@ -131,17 +131,33 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, Movement, 
     this.get('pac').draw();
     this.get('ghosts').forEach( ghost => ghost.draw() );
 
-    if(this.collidedWithGhost()){
-      this.decrementProperty('lives');
-      this.restart();
+    // if(this.detectGhostCollisions()){
+    //   this.decrementProperty('lives');
+    //   this.restart();
+    // }
+    let ghostCollisions = this.detectGhostCollisions();
+    if(ghostCollisions.length > 0){
+      if(this.get('pac.powerMode')){
+        console.log('i ate a ghost')
+        ghostCollisions.forEach( ghost => ghost.retreat() )
+      }
+      else {
+        this.decrementProperty('lives');
+        this.restart();
+      }
     }
-
     Ember.run.later(this, this.loop, 1000/60);
   },
 
-  collidedWithGhost(){
-    return this.get('ghosts').any((ghost)=>{
-      return this.get('pac.x') == ghost.get('x') && this.get('pac.y') == ghost.get('y')
+  detectGhostCollisions(){
+    // return this.get('ghosts').any((ghost)=>{
+    //   console.log('fuck a duck', this.get('pac.x') == ghost.get('x') && this.get('pac.y') == ghost.get('y'))
+    //   return this.get('pac.x') == ghost.get('x') && this.get('pac.y') == ghost.get('y')
+    // })
+    return this.get('ghosts').filter((ghost)=>{
+    // console.log('fuck a duck', this.get('pac.x') == ghost.get('x') && this.get('pac.y') == ghost.get('y'))
+    return (this.get('pac.x') == ghost.get('x') &&
+            this.get('pac.y') == ghost.get('y'))
     })
   },
 
@@ -160,10 +176,8 @@ export default Ember.Component.extend(KeyboardShortcuts, SharedStuff, Movement, 
       }
     }
     else if(grid[y][x] == 3){
-      console.log('wahoooo');
       grid[y][x] = 0;
       this.set('pac.powerMode', true);
-      console.log(this.get('pac.powerMode'))
     }
   },
 

@@ -29,5 +29,6 @@ export default Ember.Object.extend(SharedStuff, Movement, {
     this.set('y', 1);
     this.set('frameCycle', 0);
     this.set('direction', 'stopped');
+    this.set('powerMode', false);
   },
 })
