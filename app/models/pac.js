@@ -5,7 +5,10 @@ import Movement from '../mixins/movement';
 export default Ember.Object.extend(SharedStuff, Movement, {
   direction: 'down',
   intent: 'down',
-  powerMode: false,
+  powerMode: Ember.computed.gt('powerModeTime', 0),
+  powerModeTime: 0,
+  maxPowerModeTime: 400,
+  timers: ['powerModeTime'],
 
   draw(){
     let x = this.get('x');
@@ -29,6 +32,6 @@ export default Ember.Object.extend(SharedStuff, Movement, {
     this.set('y', 1);
     this.set('frameCycle', 0);
     this.set('direction', 'stopped');
-    this.set('powerMode', false);
+    // this.set('powerMode', false);
   },
 })
