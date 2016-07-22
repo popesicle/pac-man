@@ -14,9 +14,20 @@ export default Ember.Object.extend(SharedStuff, Movement, {
     let x = this.get('x');
     let y = this.get('y');
     let radiusDivisor = 2;
-    let color = this.get('powerMode') ? '#AF0' : '#FE0';
-    this.drawCircle(x, y, radiusDivisor, this.get('direction'), color);
+    this.drawCircle(x, y, radiusDivisor, this.get('direction'), this.get('color'));
   },
+
+  color: Ember.computed('powerModeTime', function(){
+    let timerPercentage = this.get('powerModeTime') / this.get('maxPowerModeTime');
+    let powered = {r: 60, g: 100, b: 0};
+    let normal = {r: 100, g: 95, b: 0};
+    let [r, g, b] = ['r', 'g', 'b'].map(function(rgbSelector){
+      let color = powered[rgbSelector] * timerPercentage + normal[rgbSelector] * (1- timerPercentage)
+      return Math.round(color);
+    })
+    console.log(`rbg(${r}%,${g}%,${b})`)
+    return `rgb(${r}%,${g}%,${b}%)`
+  }),
 
   changeDirection(){
     let intent = this.get("intent");
