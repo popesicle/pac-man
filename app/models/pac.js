@@ -25,7 +25,6 @@ export default Ember.Object.extend(SharedStuff, Movement, {
       let color = powered[rgbSelector] * timerPercentage + normal[rgbSelector] * (1- timerPercentage)
       return Math.round(color);
     })
-    console.log(`rbg(${r}%,${g}%,${b})`)
     return `rgb(${r}%,${g}%,${b}%)`
   }),
 
